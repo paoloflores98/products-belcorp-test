@@ -1,4 +1,5 @@
 import { Button, Text, Flex } from "@radix-ui/themes"
+import GridExample from "./components/GridExample"
 
 function App() {
   
@@ -9,6 +10,7 @@ function App() {
         <Text>Hola mundo desde Radix UI</Text>
         <Button size="2" variant="soft">Vamos</Button>
       </Flex>
+      <GridExample />
     </>
   )
 }
