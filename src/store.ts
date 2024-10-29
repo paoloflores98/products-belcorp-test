@@ -1,12 +1,6 @@
-// src/store/productStore.ts
 import { create } from 'zustand'
-
-interface Product {
-  id: number
-  title: string
-  description: string
-  price: number
-}
+import { fetchProductsFromAPI } from './services/ProductService'
+import { Product } from './types'
 
 interface ProductStore {
   products: Product[]
@@ -16,8 +10,9 @@ interface ProductStore {
 export const useProductStore = create<ProductStore>((set) => ({
   products: [],
   fetchProducts: async () => {
-    const response = await fetch('https://dummyjson.com/products')
-    const data = await response.json()
-    set({ products: data.products })
+    const products = await fetchProductsFromAPI()
+    set(() => ({
+      products
+    }))
   },
 }))
