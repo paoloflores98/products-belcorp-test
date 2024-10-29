@@ -6,6 +6,7 @@ import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
 import { Dialog, Tabs } from "@radix-ui/themes"
 import { Product } from "../types"
+import GeneralTab from "./GeneralTab"
 
 export default function ProductList() {
   const { products, fetchProducts } = useProductStore()
@@ -14,6 +15,10 @@ export default function ProductList() {
   useEffect(() => {
     fetchProducts()
   }, [fetchProducts])
+  
+  const handleConfirm = (price: string) => {
+    alert(`Precio confirmado: ${price}`)
+  }
 
   const columns: ColDef[] = [
     { headerName: 'ID', field: 'id' },
@@ -57,12 +62,12 @@ export default function ProductList() {
               </Tabs.List>
 
               <Tabs.Content value="general">
-                <p><strong>ID:</strong> {selectedProduct.id}</p>
-                <p><strong>Title:</strong> {selectedProduct.title}</p>
-                <p><strong>Price:</strong> {selectedProduct.price}</p>
+                <GeneralTab onConfirm={handleConfirm} />
               </Tabs.Content>
 
               <Tabs.Content value="detail">
+                <p><strong>ID:</strong> {selectedProduct.id}</p>
+                <p><strong>Title:</strong> {selectedProduct.title}</p>
                 <p><strong>Description:</strong> {selectedProduct.description}</p>
               </Tabs.Content>
             </Tabs.Root>
