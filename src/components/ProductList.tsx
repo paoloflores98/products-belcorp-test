@@ -4,10 +4,11 @@ import { AgGridReact } from 'ag-grid-react'
 import { ColDef, ICellRendererParams } from "ag-grid-community"
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
-import { Dialog, Tabs } from "@radix-ui/themes"
+import { Button, Dialog, Tabs } from "@radix-ui/themes"
 import { Product } from "../types"
 import GeneralTab from "./GeneralTab"
 import DetailTab from "./DetailTab"
+import { Cross1Icon, EyeOpenIcon } from "@radix-ui/react-icons"
 
 export default function ProductList() {
   const { products, fetchProducts } = useProductStore()
@@ -31,10 +32,9 @@ export default function ProductList() {
       field: 'actions',
       cellRenderer: (params: ICellRendererParams<Product>) => {
         return (
-          <button onClick={() => setSelectedProduct(params.data as Product)}>
-            Ver
-          </button>
-          
+          <Button onClick={() => setSelectedProduct(params.data as Product)} color="cyan" variant="soft">
+            <EyeOpenIcon /> Mostrar
+          </Button>
         )
       }
     }
@@ -49,6 +49,7 @@ export default function ProductList() {
         pagination={true}
         paginationPageSize={10}
         paginationPageSizeSelector={[10, 15, 20]}
+        onGridReady={(params) => params.api.sizeColumnsToFit()} // Ajustar columnas
       />
 
       {selectedProduct && (
@@ -72,7 +73,9 @@ export default function ProductList() {
             </Tabs.Root>
 
             <Dialog.Close>
-              <button onClick={() => setSelectedProduct(null)}>Cerrar</button>
+              <Button onClick={() => setSelectedProduct(null)} color="crimson" variant="soft">
+                <Cross1Icon /> Cerrar
+              </Button>
             </Dialog.Close>
           </Dialog.Content>
         </Dialog.Root>

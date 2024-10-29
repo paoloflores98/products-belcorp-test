@@ -6,7 +6,7 @@ interface GeneralTabProps {
 
 export default function GeneralTab({ onConfirm }: GeneralTabProps) {
   const [brand, setBrand] = useState("Esika")
-  const [price, setPrice] = useState("0.000000")
+  const [price, setPrice] = useState("")
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -40,15 +40,16 @@ export default function GeneralTab({ onConfirm }: GeneralTabProps) {
       <div className="mb-3">
         <label className="text-violet-500 font-semibold">Precio:</label>
         <input
+          className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-violet-500"
           type="text"
           value={price}
           onChange={handlePriceChange}
-          className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-violet-500"
+          placeholder="Ejemplo: 0.443739"
         />
       </div>
       <button
-        type="submit"
         className="w-full mt-4 bg-violet-500 text-white font-semibold py-2 rounded-lg hover:bg-violet-600 transition-colors"
+        type="submit"
       >Confirmar</button>
     </form>
   )
