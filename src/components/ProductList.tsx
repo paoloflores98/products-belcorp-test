@@ -48,7 +48,7 @@ export default function ProductList() {
 
   return (
     <div className="ag-theme-alpine" style={{ height: 450, width: '100%' }}>
-      <h1 className="text-3xl text-center text-violet-600 font-bold mb-4">Lista de productos Belcorp</h1>
+      <h2 className="text-2xl text-center text-violet-600 font-bold mb-4">Lista de productos Belcorp</h2>
       <AgGridReact
         rowData={products}
         columnDefs={columns}
