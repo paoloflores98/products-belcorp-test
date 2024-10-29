@@ -1,16 +1,12 @@
-import { Button, Text, Flex } from "@radix-ui/themes"
-import GridExample from "./components/GridExample"
+import ProductList from "./components/ProductList"
 
 function App() {
   
   return (
     <>
-      <h1 className="text-3xl mb-4">Hola mundo</h1>
-      <Flex direction="row" gap="2">
-        <Text>Hola mundo desde Radix UI</Text>
-        <Button size="2" variant="soft">Vamos</Button>
-      </Flex>
-      <GridExample />
+      <div className="w-10/12 mx-auto p-4">
+        <ProductList />
+      </div>
     </>
   )
 }
