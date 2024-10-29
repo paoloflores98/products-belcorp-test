@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Product } from "../types"
+import { formatDate } from "../utils"
 
 interface DetailTabProps {
   product: Product
@@ -10,17 +11,27 @@ export default function DetailTab({ product }: DetailTabProps) {
 
   useEffect(() => {
     const now = new Date()
-    const formattedDateTime = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
-    setCurrentDateTime(formattedDateTime)
+    setCurrentDateTime(formatDate(now))
   }, [])
 
-
   return (
-    <div>
-      <p><strong>ID:</strong> {product.id}</p>
-      <p><strong>Title:</strong> {product.title}</p>
-      <p><strong>Description:</strong> {product.description}</p>
-      <p><strong>Fecha y Hora:</strong> {currentDateTime}</p>
+    <div className="p-6 my-4 bg-whitex rounded-lg shadow-lg border">
+      <div className="mb-3">
+        <p className="text-violet-500 font-semibold">ID:</p>
+        <p className="text-black">{product.id}</p>
+      </div>
+      <div className="mb-3">
+        <p className="text-violet-500 font-semibold">Título:</p>
+        <p className="text-black">{product.title}</p>
+      </div>
+      <div className="mb-3">
+        <p className="text-violet-500 font-semibold">Descripción:</p>
+        <p className="text-black">{product.description}</p>
+      </div>
+      <div className="mt-5">
+        <p className="text-violet-500 font-semibold">Fecha y Hora:</p>
+        <p className="text-black">{currentDateTime}</p>
+      </div>
     </div>
   )
 }

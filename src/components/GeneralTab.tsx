@@ -10,40 +10,46 @@ export default function GeneralTab({ onConfirm }: GeneralTabProps) {
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    // Valida que tenga 6 decimales y esté entre 0 y 1
-    if (/^(0(\.\d{0,6})?|1(\.0{0,6})?)$/.test(value)) {
-      setPrice(value)
-    }else {
+    setPrice(value)
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Validar formato al confirmar
+    if (/^(0(\.\d{1,6})?|1(\.0{1,6})?)$/.test(price)) {
+      onConfirm(price)
+    } else {
       alert("El precio debe estar entre 0 y 1, con hasta 6 decimales")
     }
   }
-
-  const handleConfirmClick = () => {
-    onConfirm(price)
-  }
   
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
-      <label>
-        Marca:
-        <select value={brand} onChange={(e) => setBrand(e.target.value)}>
+    <form onSubmit={handleSubmit} className="p-6 my-4 bg-white rounded-lg shadow-lg border">
+      <div className="mb-3">
+        <label className="text-violet-500 font-semibold">Marca:</label>
+        <select
+          className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-violet-500"
+          value={brand}
+          onChange={(e) => setBrand(e.target.value)}
+        >
           <option value="Esika">Esika</option>
           <option value="Lbel">Lbel</option>
           <option value="Cyzone">Cyzone</option>
         </select>
-      </label>
-      <label>
-        Precio:
+      </div>
+      <div className="mb-3">
+        <label className="text-violet-500 font-semibold">Precio:</label>
         <input
-          type="number"
-          step="0.000001"
+          type="text"
           value={price}
           onChange={handlePriceChange}
-          min="0"
-          max="1"
+          className="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-violet-500"
         />
-      </label>
-      <button type="button" onClick={handleConfirmClick}>Confirmar</button>
+      </div>
+      <button
+        type="submit"
+        className="w-full mt-4 bg-violet-500 text-white font-semibold py-2 rounded-lg hover:bg-violet-600 transition-colors"
+      >Confirmar</button>
     </form>
   )
 }
