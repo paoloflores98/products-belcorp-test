@@ -1,12 +1,15 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useProductStore } from "../store"
 import { AgGridReact } from 'ag-grid-react'
-import { ColDef } from "ag-grid-community"
+import { ColDef, ICellRendererParams } from "ag-grid-community"
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
+import { Dialog, Tabs } from "@radix-ui/themes"
+import { Product } from "../types"
 
 export default function ProductList() {
   const { products, fetchProducts } = useProductStore()
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
   useEffect(() => {
     fetchProducts()
@@ -15,8 +18,20 @@ export default function ProductList() {
   const columns: ColDef[] = [
     { headerName: 'ID', field: 'id' },
     { headerName: 'Title', field: 'title' },
-    { headerName: 'Description', field: 'description', flex: 1 },
-    { headerName: 'Price', field: 'price' }
+    { headerName: 'Description', field: 'description' },
+    { headerName: 'Price', field: 'price' },
+    {
+      headerName: 'Actions',
+      field: 'actions',
+      cellRenderer: (params: ICellRendererParams<Product>) => {
+        return (
+          <button onClick={() => setSelectedProduct(params.data as Product)}>
+            Ver
+          </button>
+          
+        )
+      }
+    }
   ]
 
   return (
@@ -29,6 +44,35 @@ export default function ProductList() {
         paginationPageSize={10}
         paginationPageSizeSelector={[10, 15, 20]}
       />
+
+      {selectedProduct && (
+        <Dialog.Root open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
+          <Dialog.Content className="dialog-content" aria-describedby={undefined}>
+            <Dialog.Title>Detalles del Producto</Dialog.Title>
+
+            <Tabs.Root defaultValue="general">
+              <Tabs.List aria-label="Product Details">
+                <Tabs.Trigger value="general">General</Tabs.Trigger>
+                <Tabs.Trigger value="detail">Detalle</Tabs.Trigger>
+              </Tabs.List>
+
+              <Tabs.Content value="general">
+                <p><strong>ID:</strong> {selectedProduct.id}</p>
+                <p><strong>Title:</strong> {selectedProduct.title}</p>
+                <p><strong>Price:</strong> {selectedProduct.price}</p>
+              </Tabs.Content>
+
+              <Tabs.Content value="detail">
+                <p><strong>Description:</strong> {selectedProduct.description}</p>
+              </Tabs.Content>
+            </Tabs.Root>
+
+            <Dialog.Close>
+              <button onClick={() => setSelectedProduct(null)}>Cerrar</button>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Root>
+      )}
     </div>
   )
 }
