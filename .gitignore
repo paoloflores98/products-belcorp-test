@@ -1,3 +1,6 @@
+# Skip TypeScript compilation files
+tsconfig.*.tsbuildinfo
+
 # Logs
 logs
 *.log
