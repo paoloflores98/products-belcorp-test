@@ -25,24 +25,24 @@ export default function ProductList() {
   }
 
   const columns: ColDef[] = [
-    { headerName: 'ID', field: 'id' },
-    { headerName: 'Title', field: 'title' },
-    { headerName: 'Description', field: 'description' },
+    { headerName: 'ID', field: 'id', filter: 'agNumberColumnFilter' },
+    { headerName: 'Title', field: 'title', filter: 'agTextColumnFilter' },
+    { headerName: 'Description', field: 'description', filter: 'agTextColumnFilter' },
     {
       headerName: 'Price',
       field: 'price',
-      valueFormatter: (params) => formatCurrency(params.value)
+      valueFormatter: (params) => formatCurrency(params.value),
+      filter: 'agTextColumnFilter'
     },
     {
       headerName: 'Actions',
       field: 'actions',
-      cellRenderer: (params: ICellRendererParams<Product>) => {
-        return (
-          <Button onClick={() => setSelectedProduct(params.data as Product)} color="cyan" variant="soft">
-            <EyeOpenIcon /> Mostrar
-          </Button>
-        )
-      }
+      cellRenderer: (params: ICellRendererParams<Product>) =>(
+        <Button onClick={() => setSelectedProduct(params.data as Product)} color="cyan" variant="soft">
+          <EyeOpenIcon /> Mostrar
+        </Button>
+      ),
+      filter: false
     }
   ]
 
