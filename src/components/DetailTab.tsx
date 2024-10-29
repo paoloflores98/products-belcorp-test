@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Product } from "../types"
-import { formatDate } from "../utils"
+import { formatCurrency, formatDate } from "../utils"
 
 interface DetailTabProps {
   product: Product
@@ -27,6 +27,10 @@ export default function DetailTab({ product }: DetailTabProps) {
       <div className="mb-3">
         <p className="text-violet-500 font-semibold">Descripción:</p>
         <p className="text-black">{product.description}</p>
+      </div>
+      <div className="mb-3">
+        <p className="text-violet-500 font-semibold">Precio:</p>
+        <p className="text-black">{formatCurrency(product.price)}</p> {/* Precio formateado */}
       </div>
       <div className="mt-5">
         <p className="text-violet-500 font-semibold">Fecha y Hora:</p>

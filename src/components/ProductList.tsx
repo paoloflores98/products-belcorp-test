@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react"
-import { useProductStore } from "../store"
 import { AgGridReact } from 'ag-grid-react'
 import { ColDef, ICellRendererParams } from "ag-grid-community"
+import { Button } from "@radix-ui/themes"
+import { EyeOpenIcon } from "@radix-ui/react-icons"
+
+import { useProductStore } from "../store"
+import { Product } from "../types"
+import ProductModal from "./ProductModal"
+import { formatCurrency } from "../utils"
+
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
-import { Button, Dialog, Tabs } from "@radix-ui/themes"
-import { Product } from "../types"
-import GeneralTab from "./GeneralTab"
-import DetailTab from "./DetailTab"
-import { Cross1Icon, EyeOpenIcon } from "@radix-ui/react-icons"
 
 export default function ProductList() {
   const { products, fetchProducts } = useProductStore()
@@ -26,7 +28,11 @@ export default function ProductList() {
     { headerName: 'ID', field: 'id' },
     { headerName: 'Title', field: 'title' },
     { headerName: 'Description', field: 'description' },
-    { headerName: 'Price', field: 'price' },
+    {
+      headerName: 'Price',
+      field: 'price',
+      valueFormatter: (params) => formatCurrency(params.value)
+    },
     {
       headerName: 'Actions',
       field: 'actions',
@@ -52,34 +58,11 @@ export default function ProductList() {
         onGridReady={(params) => params.api.sizeColumnsToFit()} // Ajustar columnas
       />
 
-      {selectedProduct && (
-        <Dialog.Root open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
-          <Dialog.Content className="dialog-content" aria-describedby={undefined}>
-            <Dialog.Title>Detalles del Producto</Dialog.Title>
-
-            <Tabs.Root defaultValue="general">
-              <Tabs.List aria-label="Product Details">
-                <Tabs.Trigger value="general">General</Tabs.Trigger>
-                <Tabs.Trigger value="detail">Detalle</Tabs.Trigger>
-              </Tabs.List>
-
-              <Tabs.Content value="general">
-                <GeneralTab onConfirm={handleConfirm} />
-              </Tabs.Content>
-
-              <Tabs.Content value="detail">
-                <DetailTab product={selectedProduct} />
-              </Tabs.Content>
-            </Tabs.Root>
-
-            <Dialog.Close>
-              <Button onClick={() => setSelectedProduct(null)} color="crimson" variant="soft">
-                <Cross1Icon /> Cerrar
-              </Button>
-            </Dialog.Close>
-          </Dialog.Content>
-        </Dialog.Root>
-      )}
+      <ProductModal 
+        selectedProduct={selectedProduct} 
+        onClose={() => setSelectedProduct(null)} 
+        onConfirm={handleConfirm} 
+      />
     </div>
   )
 }
