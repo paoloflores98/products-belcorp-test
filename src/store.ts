@@ -5,6 +5,7 @@ import { Product } from './types'
 interface ProductStore {
   products: Product[]
   fetchProducts: () => Promise<void>
+  deleteProduct: (id: number) => void
 }
 
 export const useProductStore = create<ProductStore>((set) => ({
@@ -15,4 +16,7 @@ export const useProductStore = create<ProductStore>((set) => ({
       products
     }))
   },
+  deleteProduct: (id) => set((state) => ({
+    products: state.products.filter((product) => product.id !== id)
+  })),
 }))
